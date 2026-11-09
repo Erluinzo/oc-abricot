@@ -1,0 +1,46 @@
+/* colors and text styles from the figma design */
+:root {
+  --main-orange: #ff8b42;
+  --dark-orange: #d3590b;
+  --light-orange: #ffe8d9;
+
+  --white: #ffffff;
+  --grey-50: #f9fafb;
+  --grey-100: #f3f4f6;
+  --grey-200: #e5e7eb;
+  --grey-400: #9ca3af;
+  --grey-600: #6b7280;
+  --grey-800: #1f1f1f;
+  --grey-950: #0f0f0f;
+
+  --error-red: #ef4444;
+  --error-red-light: #ffe0e0;
+  --warning-orange: #e08d00;
+  --warning-orange-light: #fff0d7;
+  --success-green: #27ae60;
+  --success-green-light: #f1fff7;
+  --info-blue: #3b82f6;
+  --info-blue-light: #e0ecff;
+
+  /* use with "font: var(--h1)". --font-manrope and --font-inter come from layout.tsx */
+  --h1: 700 40px / 1.366 var(--font-manrope), sans-serif;
+  --h4: 600 24px / 1.366 var(--font-manrope), sans-serif;
+  --h5: 600 18px / 1.366 var(--font-manrope), sans-serif;
+  --body-l: 400 18px / 1.21 var(--font-inter), sans-serif;
+  --body-m: 400 16px / 1.21 var(--font-inter), sans-serif;
+  --body-s: 400 14px / 1.21 var(--font-inter), sans-serif;
+  --body-xs: 400 12px / 1.21 var(--font-inter), sans-serif;
+  --body-2xs: 400 10px / 1.21 var(--font-inter), sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--grey-50);
+  color: #000;
+  font: var(--body-s);
+}
