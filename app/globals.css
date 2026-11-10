@@ -3,6 +3,8 @@
   --main-orange: #ff8b42;
   --dark-orange: #d3590b;
   --light-orange: #ffe8d9;
+  /* figma's dark orange is too light for text (4.04:1), this one passes wcag aa (4.72:1) */
+  --dark-orange-text: #c1510a;
 
   --white: #ffffff;
   --grey-50: #f9fafb;
@@ -37,6 +39,12 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+/* the default focus ring can't be seen on the black active link */
+:focus-visible {
+  outline: 2px solid var(--dark-orange-text);
+  outline-offset: 3px;
 }
 
 body {

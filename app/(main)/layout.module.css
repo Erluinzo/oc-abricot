@@ -1,0 +1,10 @@
+/* the footer stays at the bottom, even on a short page */
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content {
+  flex: 1;
+}

@@ -1,0 +1,132 @@
+.header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 94px;
+  padding: 0 100px;
+  background: var(--white);
+  box-shadow: 0 4px 12px 1px rgba(0, 0, 0, 0.02);
+}
+
+.logo {
+  display: block;
+  flex-shrink: 0;
+}
+
+.nav {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  width: 248px;
+  padding: 27px 0;
+  border-radius: 10px;
+  background: var(--white);
+  color: var(--dark-orange-text);
+  font: var(--body-m);
+  text-decoration: none;
+  transition:
+    background 0.3s ease-out,
+    color 0.3s ease-out;
+}
+
+.link:hover,
+.link.active {
+  background: var(--grey-950);
+  color: var(--white);
+}
+
+.avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background: var(--light-orange);
+  color: var(--grey-950);
+  font: var(--body-s);
+  text-decoration: none;
+  transition:
+    background 0.3s ease-out,
+    color 0.3s ease-out;
+}
+
+.avatar:hover,
+.avatar.active {
+  background: var(--dark-orange-text);
+  color: var(--white);
+}
+
+/* figma is 1440px wide: smaller side space so the menu still fits */
+@media (max-width: 1100px) {
+  .header {
+    padding: 0 30px;
+  }
+}
+
+/* the full menu needs 784px: below 800px, icons only. the text stays for screen readers */
+@media (max-width: 800px) {
+  .link {
+    width: auto;
+    padding: 27px 20px;
+  }
+
+  .label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 0 16px;
+  }
+
+  .logo {
+    width: 100px;
+    height: auto;
+  }
+
+  .nav {
+    gap: 8px;
+  }
+
+  .link {
+    padding: 16px 14px;
+  }
+
+  .avatar {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+/* very narrow screens, or 400% zoom */
+@media (max-width: 340px) {
+  .logo {
+    width: 80px;
+  }
+
+  .link {
+    padding: 16px 10px;
+  }
+
+  .avatar {
+    width: 40px;
+    height: 40px;
+  }
+}
