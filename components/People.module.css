@@ -1,0 +1,33 @@
+/* figma "User icon" and "Tag": initials in a circle, name in a pill */
+.avatar {
+  display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  width: 27px;
+  height: 27px;
+  border: 1px solid var(--white);
+  border-radius: 50%;
+  background: var(--grey-200);
+  color: var(--grey-950);
+  font: var(--body-2xs);
+  letter-spacing: 0.2px;
+}
+
+.tag {
+  padding: 4px 16px;
+  border-radius: 50px;
+  background: var(--grey-200);
+  color: var(--grey-tag);
+  font: var(--body-s);
+}
+
+/* the project owner is in orange */
+.owner {
+  border: none;
+  background: var(--light-orange);
+}
+
+.tag.owner {
+  color: var(--dark-orange-tag);
+}

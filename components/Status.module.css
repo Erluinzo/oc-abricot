@@ -1,0 +1,27 @@
+/* figma "Tag" colors for each task status */
+.tag {
+  padding: 4px 16px;
+  border-radius: 50px;
+  font: var(--body-s);
+  white-space: nowrap;
+}
+
+.TODO {
+  background: var(--error-red-light);
+  color: var(--error-red-tag);
+}
+
+.IN_PROGRESS {
+  background: var(--warning-orange-light);
+  color: var(--warning-orange-tag);
+}
+
+.DONE {
+  background: var(--success-green-light);
+  color: var(--success-green-text);
+}
+
+.CANCELLED {
+  background: var(--grey-200);
+  color: var(--grey-tag);
+}

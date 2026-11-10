@@ -8,7 +8,8 @@
 
 .field input {
   height: 53px;
-  padding: 0 17px;
+  /* figma's 17px include the 1px border */
+  padding: 0 16px;
   border: 1px solid var(--grey-200);
   border-radius: 4px;
   background: var(--white);
@@ -63,6 +64,22 @@
   color: var(--dark-orange-text);
   font: var(--body-m);
   cursor: pointer;
+}
+
+/* figma "Link": a button that looks like a link */
+.link {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--dark-orange-text);
+  font: var(--body-s);
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.3s ease-out;
+}
+
+.link:hover {
+  color: var(--grey-950);
 }
 
 @media (max-width: 340px) {

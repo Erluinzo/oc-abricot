@@ -1,0 +1,68 @@
+.picker {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font: var(--body-s);
+}
+
+/* looks like the figma "Input" with its arrow */
+.button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  height: 53px;
+  /* figma's 17px include the 1px border */
+  padding: 0 16px;
+  border: 1px solid var(--grey-200);
+  border-radius: 4px;
+  background: var(--white);
+  color: var(--grey-600);
+  font: var(--body-xs);
+  text-align: left;
+  cursor: pointer;
+}
+
+.button svg {
+  flex-shrink: 0;
+  color: var(--grey-950);
+}
+
+.button[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--grey-200);
+  border-radius: 4px;
+  background: var(--white);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 160px;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--grey-800);
+  font: var(--body-xs);
+  cursor: pointer;
+}
+
+.option input {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  accent-color: var(--dark-orange);
+}

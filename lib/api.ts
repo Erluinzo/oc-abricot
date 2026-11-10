@@ -42,8 +42,42 @@ export function getErrorMessage(data: {
 
 export type User = { id: string; email: string; name?: string };
 
+export type Project = {
+  id: string;
+  name: string;
+  description: string | null;
+  ownerId: string;
+  owner: User;
+  members: { user: User }[];
+};
+
+export type Comment = {
+  id: string;
+  content: string;
+  createdAt: string;
+  author: User;
+};
+
+export type Task = {
+  id: string;
+  title: string;
+  description: string | null;
+  status: "TODO" | "IN_PROGRESS" | "DONE" | "CANCELLED";
+  priority: "LOW" | "MEDIUM" | "HIGH" | "URGENT";
+  dueDate: string | null;
+  assignees: { user: User }[];
+  comments: Comment[];
+};
+
 //cache: the layout and the page ask for the user, the backend is called once per page
 export const getUser = cache(async () => {
   const data = await apiFetch("/auth/profile");
   return data.data.user as User;
+});
+
+//null when the project doesn't exist or the user isn't in it (the backend says "forbidden" for both)
+//cache: the page title and the page ask for the same project
+export const getProject = cache(async (id: string) => {
+  const data = await apiFetch("/projects/" + encodeURIComponent(id));
+  return data.success ? (data.data.project as Project) : null;
 });

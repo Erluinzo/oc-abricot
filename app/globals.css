@@ -5,6 +5,8 @@
   --light-orange: #ffe8d9;
   /* figma's dark orange is too light for text (4.04:1), this one passes wcag aa (4.72:1) */
   --dark-orange-text: #c1510a;
+  /* on the light orange tags #c1510a is only 4:1, this one is 4.5:1 */
+  --dark-orange-tag: #b34c09;
 
   --white: #ffffff;
   --grey-50: #f9fafb;
@@ -12,6 +14,8 @@
   --grey-200: #e5e7eb;
   --grey-400: #9ca3af;
   --grey-600: #6b7280;
+  /* grey-600 is 3.9:1 on the grey-200 tags and 4.4:1 on grey-100, this one passes */
+  --grey-tag: #626875;
   --grey-800: #1f1f1f;
   --grey-950: #0f0f0f;
 
@@ -19,8 +23,11 @@
   /* same reason: #ef4444 is 3.6:1 on grey-50 */
   --error-red-text: #e51414;
   --error-red-light: #ffe0e0;
+  /* status tags: figma's text colors are 2.3 to 3:1 on their light background */
+  --error-red-tag: #cf1212;
   --warning-orange: #e08d00;
   --warning-orange-light: #fff0d7;
+  --warning-orange-tag: #9b6100;
   --success-green: #27ae60;
   /* #27ae60 is 2.9:1 on white */
   --success-green-text: #1e8449;

@@ -1,0 +1,69 @@
+/* figma "Modale" frames, shared by every modal */
+.dialog {
+  width: 598px;
+  max-width: calc(100% - 32px);
+  max-height: calc(100% - 32px);
+  margin: auto;
+  padding: 79px 73px;
+  border: none;
+  border-radius: 10px;
+  background: var(--white);
+}
+
+.dialog::backdrop {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.dialog h2 {
+  margin-bottom: 40px;
+  color: var(--grey-800);
+  font: var(--h4);
+}
+
+/* 32px click area, the cross itself sits where figma draws it */
+.close {
+  position: absolute;
+  top: 28px;
+  right: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: none;
+  color: var(--grey-600);
+  cursor: pointer;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 56px;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+/* figma buttons are 181px wide, text centered */
+.form > button,
+.open {
+  width: 181px;
+  padding: 0;
+}
+
+@media (max-width: 768px) {
+  .dialog {
+    padding: 64px 24px 40px;
+  }
+
+  .close {
+    top: 16px;
+    right: 16px;
+  }
+}

@@ -1,0 +1,243 @@
+/* figma draws the 1px border inside: 25px and 40px minus the border */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px 39px;
+  border: 1px solid var(--grey-200);
+  border-radius: 10px;
+  background: var(--white);
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+
+.title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.title h3 {
+  font: var(--h5);
+  overflow-wrap: anywhere;
+}
+
+.text > p {
+  color: var(--grey-600);
+  font: var(--body-s);
+}
+
+/* figma: the "..." button goes 5px into the card padding */
+.menu {
+  position: relative;
+  flex-shrink: 0;
+  margin-right: -5px;
+}
+
+/* figma "Icon button" See more, orange border when used ("focus" variant) */
+.dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 57px;
+  height: 57px;
+  border: 1px solid var(--grey-200);
+  border-radius: 10px;
+  background: var(--white);
+  color: var(--grey-600);
+  cursor: pointer;
+}
+
+.dots:hover,
+.dots[aria-expanded="true"] {
+  border-color: var(--dark-orange);
+}
+
+/* not in figma: the small list under the "..." button */
+.options {
+  position: absolute;
+  top: 61px;
+  right: 0;
+  z-index: 1;
+  min-width: 140px;
+  padding: 8px;
+  border: 1px solid var(--grey-200);
+  border-radius: 10px;
+  background: var(--white);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  list-style: none;
+}
+
+.options button {
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  background: none;
+  color: var(--grey-800);
+  font: var(--body-s);
+  text-align: left;
+  cursor: pointer;
+}
+
+.options button:hover {
+  background: var(--grey-100);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  color: var(--grey-600);
+  font: var(--body-xs);
+}
+
+/* figma: 4px between "Échéance :" and the date */
+p.row {
+  gap: 4px;
+}
+
+.date {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--grey-800);
+}
+
+.people {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+}
+
+.people li {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.comments {
+  padding-top: 24px;
+  border-top: 1px solid var(--grey-200);
+}
+
+.toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--grey-800);
+  font: var(--body-s);
+  text-align: left;
+  cursor: pointer;
+}
+
+/* figma: the arrow points up when closed, down when open */
+.toggle svg {
+  margin-right: 5px;
+  color: var(--grey-950);
+  transform: rotate(180deg);
+}
+
+.toggle[aria-expanded="true"] svg {
+  transform: none;
+}
+
+.thread {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  list-style: none;
+}
+
+.comment {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.bubble {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+  padding: 18px 14px;
+  border-radius: 10px;
+  background: var(--grey-100);
+  font: var(--body-2xs);
+  overflow-wrap: anywhere;
+}
+
+.author {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font: var(--body-s);
+}
+
+/* grey-600 is 4.4:1 on grey-100 */
+.author time {
+  color: var(--grey-tag);
+  font: var(--body-2xs);
+}
+
+.add {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.add textarea {
+  height: 83px;
+  border: none;
+  background: var(--grey-50);
+  color: var(--grey-950);
+  resize: vertical;
+}
+
+.add textarea::placeholder {
+  color: var(--grey-950);
+}
+
+/* figma "Envoyer": 209px wide, on the right */
+.add .send {
+  align-self: flex-end;
+  width: 209px;
+  padding: 0;
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 20px 16px;
+  }
+
+  .add .send {
+    width: 100%;
+  }
+}
