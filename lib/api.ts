@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { cache } from "react";
 
 const API_URL = "http://localhost:8000";
 
@@ -17,7 +18,15 @@ export async function apiFetch(path: string, options: RequestInit = {}) {
   const data = await res.json();
   //expired or wrong token: remove the cookie and go back to the login page
   if (data.error === "Authentication failed") {
-    redirect("/logout");
+    let target = "/login";
+    try {
+      //allowed in a server action (form submit)
+      (await cookies()).delete("token");
+    } catch {
+      //not allowed while a page renders: proxy.ts deletes it on /logout
+      target = "/logout";
+    }
+    redirect(target);
   }
   return data;
 }
@@ -30,3 +39,11 @@ export function getErrorMessage(data: {
   const errors = data.data?.errors;
   return errors ? errors.map((err) => err.message).join(". ") : data.message;
 }
+
+export type User = { id: string; email: string; name?: string };
+
+//cache: the layout and the page ask for the user, the backend is called once per page
+export const getUser = cache(async () => {
+  const data = await apiFetch("/auth/profile");
+  return data.data.user as User;
+});

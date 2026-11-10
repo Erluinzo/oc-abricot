@@ -16,10 +16,14 @@
   --grey-950: #0f0f0f;
 
   --error-red: #ef4444;
+  /* same reason: #ef4444 is 3.6:1 on grey-50 */
+  --error-red-text: #e51414;
   --error-red-light: #ffe0e0;
   --warning-orange: #e08d00;
   --warning-orange-light: #fff0d7;
   --success-green: #27ae60;
+  /* #27ae60 is 2.9:1 on white */
+  --success-green-text: #1e8449;
   --success-green-light: #f1fff7;
   --info-blue: #3b82f6;
   --info-blue-light: #e0ecff;
@@ -51,4 +55,53 @@ body {
   background: var(--grey-50);
   color: #000;
   font: var(--body-s);
+}
+
+/* hidden on screen, still read by screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* 404 and error pages (global: the error page is always loaded, a module would be preloaded for nothing) */
+.message-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  min-height: 100vh;
+  padding: 16px;
+  text-align: center;
+}
+
+.message-page h1 {
+  color: var(--dark-orange-text);
+  font: var(--h1);
+}
+
+.message-page p {
+  color: var(--grey-600);
+  font: var(--body-m);
+}
+
+/* figma "Button" component */
+.message-button {
+  padding: 13px 32px;
+  border: none;
+  border-radius: 10px;
+  background: var(--grey-800);
+  color: var(--white);
+  font: var(--body-m);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.3s ease-out;
+}
+
+.message-button:hover {
+  background: var(--grey-950);
 }

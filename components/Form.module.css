@@ -1,0 +1,72 @@
+/* figma "Input" and "Button" components, shared by every form */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font: var(--body-s);
+}
+
+.field input {
+  height: 53px;
+  padding: 0 17px;
+  border: 1px solid var(--grey-200);
+  border-radius: 4px;
+  background: var(--white);
+  color: var(--grey-600);
+  font: var(--body-xs);
+}
+
+.field input::placeholder {
+  color: var(--grey-600);
+  opacity: 1;
+}
+
+.hint {
+  color: var(--grey-600);
+  font: var(--body-xs);
+}
+
+.error {
+  color: var(--error-red-text);
+  font: var(--body-s);
+}
+
+.button {
+  height: 50px;
+  padding: 0 74px;
+  border: none;
+  border-radius: 10px;
+  background: var(--grey-800);
+  color: var(--white);
+  font: var(--body-m);
+  cursor: pointer;
+  transition: background 0.3s ease-out;
+}
+
+.button:hover {
+  background: var(--grey-950);
+}
+
+.button:disabled {
+  background: var(--grey-200);
+  color: var(--grey-400);
+  cursor: default;
+}
+
+/* figma "Button" variant "Outline orange" */
+.outline {
+  height: 50px;
+  padding: 0 27.5px;
+  border: 1px solid var(--dark-orange);
+  border-radius: 10px;
+  background: var(--white);
+  color: var(--dark-orange-text);
+  font: var(--body-m);
+  cursor: pointer;
+}
+
+@media (max-width: 340px) {
+  .button {
+    padding: 0 40px;
+  }
+}

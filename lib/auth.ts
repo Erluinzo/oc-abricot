@@ -1,7 +1,8 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { redirect, unstable_rethrow } from "next/navigation";
 import { apiFetch, getErrorMessage } from "./api";
 
 export type AuthState = { error: string; email: string };
@@ -45,4 +46,57 @@ export async function register(state: AuthState, formData: FormData) {
 export async function logout() {
   (await cookies()).delete("token");
   redirect("/login");
+}
+
+export type AccountState = {
+  error: string;
+  message: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+};
+
+export async function updateAccount(state: AccountState, formData: FormData) {
+  const firstName = String(formData.get("firstName")).trim();
+  const lastName = String(formData.get("lastName")).trim();
+  const email = String(formData.get("email")).trim();
+  const newPassword = String(formData.get("newPassword"));
+  const currentPassword = String(formData.get("currentPassword"));
+  const values = { firstName, lastName, email };
+  //the backend keeps one "name": "Alice" + "Martin" -> "Alice Martin"
+  const name = `${firstName} ${lastName}`.trim();
+  //an empty name is refused by the backend: only send it to clear an existing name
+  const hadName = state.firstName || state.lastName;
+  try {
+    //password first: if the current password is wrong, nothing is saved
+    if (newPassword) {
+      const res = await apiFetch("/auth/password", {
+        method: "PUT",
+        body: JSON.stringify({ currentPassword, newPassword }),
+      });
+      if (!res.success) {
+        return { ...values, error: getErrorMessage(res), message: "" };
+      }
+    }
+    const data = await apiFetch("/auth/profile", {
+      method: "PUT",
+      body: JSON.stringify({ name: name || (hadName ? "" : undefined), email }),
+    });
+    if (!data.success) {
+      const message = newPassword ? "Le mot de passe a été modifié" : "";
+      return { ...values, error: getErrorMessage(data), message };
+    }
+  } catch (err) {
+    //an expired token makes apiFetch redirect to /logout: let next.js do it
+    unstable_rethrow(err);
+    console.log(err);
+    return { ...values, error: "Erreur de connexion au serveur", message: "" };
+  }
+  //the menu shows the initials: refresh every page with the new name
+  revalidatePath("/", "layout");
+  return {
+    ...values,
+    error: "",
+    message: "Vos informations ont été modifiées",
+  };
 }

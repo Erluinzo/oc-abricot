@@ -1,0 +1,23 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 41px;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+.message {
+  color: var(--success-green-text);
+  font: var(--body-s);
+}
+
+/* figma: this button is 242px wide, its text is centered */
+.form button {
+  padding: 0 27.5px;
+}

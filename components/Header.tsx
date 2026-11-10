@@ -51,7 +51,7 @@ const links = [
 ];
 
 //client component: it needs the current url to show the active link
-export default function Header() {
+export default function Header({ initials }: { initials: string }) {
   const pathname = usePathname();
 
   return (
@@ -90,9 +90,12 @@ export default function Header() {
             ? `${styles.avatar} ${styles.active}`
             : styles.avatar
         }
-        aria-label="Mon compte"
+        //the name starts with the visible text (wcag "label in name")
+        aria-label={`${initials} - Mon compte`}
         aria-current={pathname === "/profile" ? "page" : undefined}
-      ></Link>
+      >
+        {initials}
+      </Link>
     </header>
   );
 }

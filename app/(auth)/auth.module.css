@@ -1,0 +1,91 @@
+/* the photo covers the whole page, the panel sits on top of it (like in figma) */
+.page {
+  position: relative;
+  min-height: 100vh;
+}
+
+.photo {
+  object-fit: cover;
+}
+
+.panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 202px;
+  width: 562px;
+  min-height: 100vh;
+  padding: 55px 140px;
+  background: var(--grey-50);
+}
+
+.logo {
+  width: 252.57px;
+  height: auto;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 282px;
+}
+
+.title {
+  color: var(--dark-orange);
+  font: var(--h1);
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 21px;
+}
+
+/* figma "Link" component */
+.link {
+  color: var(--dark-orange-text);
+  font: var(--body-s);
+  text-decoration: underline;
+  white-space: nowrap;
+  transition: color 0.3s ease-out;
+}
+
+a.link:hover {
+  color: var(--grey-950);
+}
+
+.switch {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  font: var(--body-s);
+}
+
+/* small screens: no photo, the panel takes the whole width */
+@media (max-width: 768px) {
+  .photo {
+    display: none;
+  }
+
+  .panel {
+    width: 100%;
+    padding: 40px 24px;
+    gap: 80px;
+  }
+}
+
+@media (max-width: 340px) {
+  .logo {
+    width: 200px;
+  }
+
+  .content {
+    width: 100%;
+  }
+}

@@ -44,6 +44,17 @@
   color: var(--white);
 }
 
+/* icons only need 3:1, so they keep the figma orange (4.04:1) */
+.link svg {
+  color: var(--dark-orange);
+  transition: color 0.3s ease-out;
+}
+
+.link:hover svg,
+.link.active svg {
+  color: var(--white);
+}
+
 .avatar {
   display: flex;
   justify-content: center;
@@ -55,6 +66,7 @@
   background: var(--light-orange);
   color: var(--grey-950);
   font: var(--body-s);
+  letter-spacing: 0.28px;
   text-decoration: none;
   transition:
     background 0.3s ease-out,
