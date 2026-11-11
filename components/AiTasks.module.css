@@ -244,7 +244,26 @@ button.add {
   }
 }
 
+/* phones: smaller margins and a taller modal, so the list shows about 2 cards */
 @media (max-width: 480px) {
+  dialog.dialog {
+    max-height: calc(100% - 16px);
+    padding: 56px 16px 24px;
+  }
+
+  dialog.dialog h2 {
+    margin-bottom: 24px;
+  }
+
+  .full .prompt {
+    margin: 16px -16px 0;
+    padding: 16px 16px 0;
+  }
+
+  button.add {
+    margin-top: 16px;
+  }
+
   .card {
     padding: 20px 16px;
   }

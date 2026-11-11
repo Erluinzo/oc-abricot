@@ -121,6 +121,11 @@
     margin-bottom: 32px;
   }
 
+  /* phones: the back arrow on its own line, the title gets the full width */
+  .title {
+    flex-basis: 100%;
+  }
+
   .contributors {
     padding: 20px;
   }

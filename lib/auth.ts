@@ -21,6 +21,16 @@ async function sendAuthForm(path: string, formData: FormData) {
     return { error: "Erreur de connexion au serveur", email };
   }
   if (!data.success) {
+    //the rules are already written under the field: no need to repeat them in red
+    const weak = data.data?.errors?.some(
+      (err: { field: string }) => err.field === "password",
+    );
+    if (weak && path === "/auth/register") {
+      return {
+        error: "Mot de passe trop faible : suivez les règles ci-dessus.",
+        email,
+      };
+    }
     return { error: getErrorMessage(data), email };
   }
   //httpOnly: javascript in the page can't read the token (safe from xss)

@@ -118,6 +118,16 @@ a.see {
   align-items: flex-start;
 }
 
+/* figma puts the description next to the tag, in a narrow column:
+   2 lines at most, the full text is on the project page */
+.kanban .text p {
+  display: -webkit-box;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
 @media (max-width: 700px) {
   .card {
     flex-direction: column;

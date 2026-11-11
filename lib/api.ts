@@ -63,6 +63,7 @@ export type Task = {
   status: "TODO" | "IN_PROGRESS" | "DONE" | "CANCELLED";
   priority: "LOW" | "MEDIUM" | "HIGH" | "URGENT";
   dueDate: string | null;
+  createdAt: string;
   assignees: { user: User }[];
   comments: { id: string; content: string; createdAt: string; author: User }[];
   projectId: string;

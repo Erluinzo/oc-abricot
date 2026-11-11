@@ -19,11 +19,15 @@ export const STATUS: Record<Task["status"], string> = {
   CANCELLED: "Annulée",
 };
 
-//"2024-03-09T00:00:00.000Z" -> "9 mars". The backend saves the day at midnight UTC
+//"2026-03-09T00:00:00.000Z" -> "9 mars", "2024-03-09..." -> "9 mars 2024":
+//the year only when it is not this year. The backend saves the day at midnight UTC
 export function formatDay(date: string) {
-  return new Date(date).toLocaleDateString("fr-FR", {
+  const day = new Date(date);
+  const thisYear = day.getUTCFullYear() === new Date().getUTCFullYear();
+  return day.toLocaleDateString("fr-FR", {
     day: "numeric",
     month: "long",
+    year: thisYear ? undefined : "numeric",
     timeZone: "UTC",
   });
 }
@@ -44,12 +48,18 @@ export function formatDateTime(date: string) {
   return `${day}, ${time}`;
 }
 
-//"Par ordre de priorité": most urgent first, then the nearest due date
+//"Par ordre de priorité": tasks still to do first (finished or cancelled ones last),
+//then the most urgent, then the nearest due date, then the oldest
 const PRIORITY = ["URGENT", "HIGH", "MEDIUM", "LOW"];
+const isClosed = (task: Task) =>
+  task.status === "DONE" || task.status === "CANCELLED" ? 1 : 0;
 export function byPriority(a: Task, b: Task) {
   return (
+    isClosed(a) - isClosed(b) ||
     PRIORITY.indexOf(a.priority) - PRIORITY.indexOf(b.priority) ||
     //no date goes last
-    (a.dueDate ?? "9999").localeCompare(b.dueDate ?? "9999")
+    (a.dueDate ?? "9999").localeCompare(b.dueDate ?? "9999") ||
+    //same priority and date (the tasks added by the AI): the order they were made in
+    a.createdAt.localeCompare(b.createdAt)
   );
 }

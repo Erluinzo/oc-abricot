@@ -30,8 +30,9 @@ export default async function DashboardPage() {
         <div className={styles.title}>
           <h1>Tableau de bord</h1>
           <p>
-            Bonjour {user.name ?? user.email}, voici un aperçu de vos projets et
-            tâches
+            {/* no name yet (new account): no email in the greeting */}
+            Bonjour{user.name ? ` ${user.name}` : ""}, voici un aperçu de vos
+            projets et tâches
           </p>
         </div>
         <ProjectButton ownerId={user.id} />

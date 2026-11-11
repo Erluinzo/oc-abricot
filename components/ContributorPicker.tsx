@@ -65,7 +65,11 @@ export default function ContributorPicker({ ownerId, selectedUsers }: Props) {
   let status = "";
   if (query.trim().length < 2) {
     status = "Tapez au moins 2 lettres.";
-  } else if (results.query === query && list.length === shown.length) {
+  } else if (
+    results.query === query &&
+    //based on the search answer only: a ticked user found by the search is a result
+    !results.users.some((user) => user.id !== ownerId)
+  ) {
     status = "Aucun collaborateur trouvé.";
   }
 
