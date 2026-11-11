@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { deleteProject } from "@/lib/projects";
+import ConfirmDialog from "./ConfirmDialog";
 import form from "./Form.module.css";
 
 type Props = {
@@ -13,14 +14,10 @@ type Props = {
 export default function DeleteProject({ id, name }: Props) {
   const [error, setError] = useState("");
   const [deleting, startDelete] = useTransition();
+  const [confirming, setConfirming] = useState(false);
 
+  //after "Supprimer" in the confirm modal: it can't be undone
   function remove() {
-    //the browser asks before deleting: it can't be undone
-    if (
-      !confirm(`Supprimer le projet « ${name} » ? Cette action est définitive.`)
-    ) {
-      return;
-    }
     //on success the action goes back to the projects list
     startDelete(async () => setError(await deleteProject(id)));
   }
@@ -29,12 +26,20 @@ export default function DeleteProject({ id, name }: Props) {
     <>
       <button
         type="button"
-        onClick={remove}
+        onClick={() => setConfirming(true)}
         disabled={deleting}
         className={form.link}
       >
         Supprimer
       </button>
+      {confirming && (
+        <ConfirmDialog
+          title="Supprimer le projet ?"
+          text={`Le projet « ${name} » et toutes ses tâches seront supprimés. Cette action est définitive.`}
+          onConfirm={remove}
+          onClose={() => setConfirming(false)}
+        />
+      )}
       {error && (
         <p role="alert" className={form.error}>
           {error}

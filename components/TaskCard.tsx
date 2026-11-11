@@ -4,6 +4,7 @@ import { useActionState, useId, useRef, useState, useTransition } from "react";
 import type { Task, User } from "@/lib/api";
 import { STATUS, formatDateTime, formatDay, getInitials } from "@/lib/format";
 import { addComment, deleteTask } from "@/lib/tasks";
+import ConfirmDialog from "./ConfirmDialog";
 import { CalendarIcon, ChevronIcon, DotsIcon } from "./Icons";
 import TaskModal from "./TaskModal";
 import form from "./Form.module.css";
@@ -30,6 +31,7 @@ export default function TaskCard({
   const dots = useRef<HTMLButtonElement>(null);
   const textarea = useRef<HTMLTextAreaElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [confirming, setConfirming] = useState(false);
   const [editing, setEditing] = useState(false);
   const [commentsOpen, setCommentsOpen] = useState(false);
   const [error, setError] = useState("");
@@ -48,16 +50,8 @@ export default function TaskCard({
     "",
   );
 
+  //after "Supprimer" in the confirm modal: it can't be undone
   function remove() {
-    setMenuOpen(false);
-    //the browser asks before deleting: it can't be undone
-    if (
-      !confirm(
-        `Supprimer la tâche « ${task.title} » ? Cette action est définitive.`,
-      )
-    ) {
-      return;
-    }
     startDelete(async () => {
       const result = await deleteTask(projectId, task.id);
       setError(result);
@@ -70,6 +64,18 @@ export default function TaskCard({
 
   return (
     <li className={styles.card}>
+      {confirming && (
+        <ConfirmDialog
+          title="Supprimer la tâche ?"
+          text={`La tâche « ${task.title} » sera supprimée. Cette action est définitive.`}
+          onConfirm={remove}
+          onClose={() => {
+            setConfirming(false);
+            //the menu item is gone: the focus goes back to the "..." button
+            dots.current?.focus();
+          }}
+        />
+      )}
       <div className={styles.top}>
         <div className={styles.text}>
           <div className={styles.title}>
@@ -121,7 +127,14 @@ export default function TaskCard({
                 </button>
               </li>
               <li>
-                <button type="button" onClick={remove} disabled={deleting}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMenuOpen(false);
+                    setConfirming(true);
+                  }}
+                  disabled={deleting}
+                >
                   Supprimer
                 </button>
               </li>
