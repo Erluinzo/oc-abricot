@@ -35,7 +35,7 @@ export default function TaskModal({
   );
   const [state, formAction, pending] = useActionState(
     async (prev: TaskState, formData: FormData) => {
-      const result = await saveTask(projectId, task?.id, prev, formData);
+      const result = await saveTask(projectId, task?.id, formData);
       if (!result.error) {
         dialog.current?.close();
       }
@@ -51,6 +51,14 @@ export default function TaskModal({
     },
   );
   const describedBy = state.error ? `${id}-error` : undefined;
+  const errorText = useRef<HTMLParagraphElement>(null);
+
+  //the button was disabled while saving: the focus goes to the error text
+  useEffect(() => {
+    if (state.error) {
+      errorText.current?.focus();
+    }
+  }, [state]);
 
   //opened once, when it appears (the dev mode runs effects twice: open only if closed)
   useEffect(() => {
@@ -59,6 +67,11 @@ export default function TaskModal({
     }
   }, []);
 
+  //figma has 3 statuses; a cancelled task (backend only) keeps its own choice
+  const statuses: Task["status"][] =
+    task?.status === "CANCELLED"
+      ? ["TODO", "IN_PROGRESS", "DONE", "CANCELLED"]
+      : ["TODO", "IN_PROGRESS", "DONE"];
   //the edit modal labels have no star in figma
   const star = task ? "" : "*";
 
@@ -118,12 +131,15 @@ export default function TaskModal({
           </div>
           <AssigneePicker
             users={members}
-            selectedIds={task?.assignees.map(({ user }) => user.id)}
+            //a contributor removed from the project can't keep the task
+            selectedIds={task?.assignees
+              .map(({ user }) => user.id)
+              .filter((userId) => members.some((user) => user.id === userId))}
           />
           <fieldset className={styles.status}>
             <legend>Statut :</legend>
             <div>
-              {(["TODO", "IN_PROGRESS", "DONE"] as const).map((value) => (
+              {statuses.map((value) => (
                 <label key={value} className={`${status.tag} ${status[value]}`}>
                   <input
                     type="radio"
@@ -137,7 +153,13 @@ export default function TaskModal({
             </div>
           </fieldset>
           {state.error && (
-            <p id={`${id}-error`} role="alert" className={form.error}>
+            <p
+              id={`${id}-error`}
+              role="alert"
+              tabIndex={-1}
+              ref={errorText}
+              className={form.error}
+            >
               {state.error}
             </p>
           )}

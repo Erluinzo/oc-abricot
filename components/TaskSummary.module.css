@@ -1,0 +1,155 @@
+/* list card: text on the left, tag and "Voir" on the right.
+   figma draws the 1px border inside: 25px and 40px minus the border */
+.card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding: 24px 39px;
+  border: 1px solid var(--grey-200);
+  border-radius: 10px;
+  background: var(--white);
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  min-width: 0;
+}
+
+/* the tag goes under the title when the title would get less than 140px */
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px 32px;
+}
+
+.text {
+  display: flex;
+  flex: 1 1 140px;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+
+.text h3 {
+  font: var(--h5);
+  overflow-wrap: anywhere;
+}
+
+.text p {
+  color: var(--grey-600);
+  font: var(--body-s);
+}
+
+/* project | date | comments */
+/* one line like figma: a long project name ends with "..." */
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: var(--grey-600);
+  font: var(--body-xs);
+}
+
+.meta > span {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.meta > span:first-child {
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+.meta svg {
+  flex-shrink: 0;
+}
+
+.project {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.meta > span:first-child svg {
+  color: var(--grey-400);
+}
+
+/* the figma line between two parts: 15px on each side */
+.meta > span + span::before {
+  content: "";
+  width: 1px;
+  height: 11px;
+  margin-right: 7px;
+  background: var(--grey-400);
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  align-items: flex-end;
+  gap: 37px;
+}
+
+a.see {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 121px;
+  padding: 0;
+  text-decoration: none;
+}
+
+/* kanban card: everything in one column */
+.kanban {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 32px;
+}
+
+.kanban .side {
+  align-items: flex-start;
+}
+
+@media (max-width: 700px) {
+  .card {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 20px 16px;
+  }
+
+  .side {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .kanban .side {
+    flex-direction: row;
+  }
+}
+
+@media (max-width: 1100px) {
+  .kanban {
+    padding: 23px 19px;
+  }
+}
+
+/* small screens: the line can wrap, without the separators */
+@media (max-width: 480px) {
+  .meta {
+    flex-wrap: wrap;
+    gap: 8px 15px;
+  }
+
+  .meta > span + span::before {
+    display: none;
+  }
+}

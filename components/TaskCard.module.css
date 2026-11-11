@@ -118,20 +118,9 @@ p.row {
   color: var(--grey-800);
 }
 
-.people {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  list-style: none;
-}
-
-.people li {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
+/* figma: like the "..." button, the bottom part goes 5px into the right padding */
 .comments {
+  margin-right: -5px;
   padding-top: 24px;
   border-top: 1px solid var(--grey-200);
 }
@@ -194,9 +183,12 @@ p.row {
   overflow-wrap: anywhere;
 }
 
+/* the name and the date never break inside a word */
 .author {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
+  overflow-wrap: normal;
   gap: 16px;
   font: var(--body-s);
 }
@@ -235,6 +227,20 @@ p.row {
 @media (max-width: 480px) {
   .card {
     padding: 20px 16px;
+  }
+
+  /* the "..." button goes under the text when the text would get less than 160px */
+  .top {
+    flex-wrap: wrap;
+  }
+
+  .text {
+    flex: 1 1 160px;
+  }
+
+  .menu,
+  .comments {
+    margin-right: 0;
   }
 
   .add .send {

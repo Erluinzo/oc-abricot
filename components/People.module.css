@@ -22,12 +22,26 @@
   font: var(--body-s);
 }
 
-/* the project owner is in orange */
-.owner {
+/* orange: the project owner, and the connected user next to a new comment */
+.orange {
   border: none;
   background: var(--light-orange);
 }
 
-.tag.owner {
+.tag.orange {
   color: var(--dark-orange-tag);
+}
+
+/* a row of people: initials + name */
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+}
+
+.list li {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }

@@ -1,0 +1,85 @@
+/* the white block that holds a list of tasks (project page and dashboard).
+   figma draws the 1px border inside: 40px and 59px minus the border */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 41px;
+  padding: 39px 58px;
+  border: 1px solid var(--grey-200);
+  border-radius: 10px;
+  background: var(--white);
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.heading h2 {
+  color: var(--grey-800);
+  font: var(--h5);
+}
+
+.heading p {
+  color: var(--grey-600);
+  font: var(--body-m);
+}
+
+/* figma search box: 63px high, 1px border inside, icon 32px from the right */
+.search {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search input {
+  height: 63px;
+  padding: 0 60px 0 31px;
+  border: 1px solid var(--grey-200);
+  border-radius: 8px;
+  background: var(--white);
+  color: var(--grey-600);
+  font: var(--body-s);
+}
+
+.search input::placeholder {
+  color: var(--grey-600);
+  opacity: 1;
+}
+
+.search svg {
+  position: absolute;
+  right: 32px;
+  color: var(--grey-600);
+  pointer-events: none;
+}
+
+.empty {
+  color: var(--grey-600);
+}
+
+@media (max-width: 1100px) {
+  .section {
+    padding: 31px 29px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 23px 15px;
+  }
+
+  .search,
+  .search input {
+    width: 100%;
+  }
+
+  .search input {
+    padding: 0 40px 0 16px;
+  }
+
+  .search svg {
+    right: 16px;
+  }
+}

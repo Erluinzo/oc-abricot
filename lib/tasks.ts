@@ -17,7 +17,6 @@ export type TaskState = {
 export async function saveTask(
   projectId: string,
   taskId: string | undefined,
-  state: TaskState,
   formData: FormData,
 ) {
   const values = {
@@ -40,11 +39,18 @@ export async function saveTask(
     }
     //the backend creates every task "to do": another status is saved in a second call
     if (!taskId && values.status !== "TODO") {
-      const result = await apiFetch(`${path}/${data.data.task.id}`, {
-        method: "PUT",
-        body: JSON.stringify({ status: values.status }),
-      });
+      const result = await apiFetch(
+        `${path}/${encodeURIComponent(data.data.task.id)}`,
+        {
+          method: "PUT",
+          body: JSON.stringify({ status: values.status }),
+        },
+      );
       if (!result.success) {
+        //no half saved task: the user can send the form again
+        await apiFetch(`${path}/${encodeURIComponent(data.data.task.id)}`, {
+          method: "DELETE",
+        });
         return { ...values, error: getErrorMessage(result) };
       }
     }
@@ -56,9 +62,7 @@ export async function saveTask(
   }
   //"layout": the project page and the progress on the projects list change
   revalidatePath("/projects", "layout");
-  return taskId
-    ? { ...values, error: "" }
-    : { error: "", title: "", description: "", dueDate: "", status: "TODO" };
+  return { ...values, error: "" };
 }
 
 //returns an error text, empty when the task is deleted

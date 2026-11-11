@@ -11,7 +11,7 @@ export function getInitials(user: User) {
   return text.slice(0, 2).toUpperCase();
 }
 
-//the text and colors of each status tag (cancelled exists in the backend, not in figma)
+//the label of each status (cancelled exists in the backend, not in figma)
 export const STATUS: Record<Task["status"], string> = {
   TODO: "À faire",
   IN_PROGRESS: "En cours",
@@ -42,4 +42,14 @@ export function formatDateTime(date: string) {
     minute: "2-digit",
   });
   return `${day}, ${time}`;
+}
+
+//"Par ordre de priorité": most urgent first, then the nearest due date
+const PRIORITY = ["URGENT", "HIGH", "MEDIUM", "LOW"];
+export function byPriority(a: Task, b: Task) {
+  return (
+    PRIORITY.indexOf(a.priority) - PRIORITY.indexOf(b.priority) ||
+    //no date goes last
+    (a.dueDate ?? "9999").localeCompare(b.dueDate ?? "9999")
+  );
 }

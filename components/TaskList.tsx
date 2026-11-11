@@ -5,6 +5,8 @@ import type { Task, User } from "@/lib/api";
 import { STATUS } from "@/lib/format";
 import { CalendarIcon, ListIcon, SearchIcon } from "./Icons";
 import TaskCard from "./TaskCard";
+import chips from "./Chips.module.css";
+import panel from "./Panel.module.css";
 import styles from "./TaskList.module.css";
 
 type Props = {
@@ -33,20 +35,26 @@ export default function TaskList({
   );
 
   return (
-    <section aria-labelledby="tasks-title" className={styles.section}>
+    <section
+      aria-labelledby="tasks-title"
+      className={`${panel.section} ${styles.section}`}
+    >
       <div className={styles.header}>
-        <div className={styles.heading}>
-          <h2 id="tasks-title">Tâches</h2>
+        <div className={panel.heading}>
+          {/* tabIndex -1: the focus can come here after a task is deleted */}
+          <h2 id="tasks-title" tabIndex={-1}>
+            Tâches
+          </h2>
           <p>Par ordre de priorité</p>
         </div>
         <div className={styles.controls}>
-          <div className={styles.views}>
-            <button type="button" aria-pressed="true" className={styles.view}>
+          <div className={chips.views}>
+            <button type="button" aria-pressed={true} className={chips.view}>
               <ListIcon />
               Liste
             </button>
             {/* figma shows a calendar view, it is optional and not built */}
-            <button type="button" disabled className={styles.view}>
+            <button type="button" disabled className={chips.view}>
               <CalendarIcon />
               Calendrier
             </button>
@@ -64,7 +72,7 @@ export default function TaskList({
               </option>
             ))}
           </select>
-          <div className={styles.search}>
+          <div className={`${panel.search} ${styles.search}`}>
             <input
               type="search"
               aria-label="Rechercher une tâche"
@@ -81,7 +89,7 @@ export default function TaskList({
         {shown.length} tâche{shown.length > 1 && "s"}
       </p>
       {shown.length === 0 ? (
-        <p className={styles.empty}>
+        <p className={panel.empty}>
           {tasks.length === 0
             ? "Aucune tâche pour l’instant."
             : "Aucune tâche ne correspond à votre recherche."}

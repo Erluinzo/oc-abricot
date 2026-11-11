@@ -1,12 +1,12 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useId, useRef, useState } from "react";
 import type { User } from "@/lib/api";
 import { ChevronIcon } from "./Icons";
-import styles from "./ContributorPicker.module.css";
+import styles from "./Picker.module.css";
 
 type Props = {
-  //the project members: only them can get the task
+  //the project members: only they can get the task
   users: User[];
   selectedIds?: string[];
 };
@@ -16,6 +16,7 @@ export default function AssigneePicker({ users, selectedIds }: Props) {
   const id = useId();
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(selectedIds ?? []);
+  const button = useRef<HTMLButtonElement>(null);
 
   function toggle(userId: string) {
     setSelected(
@@ -26,9 +27,20 @@ export default function AssigneePicker({ users, selectedIds }: Props) {
   }
 
   return (
-    <div className={styles.picker}>
+    <div
+      className={styles.picker}
+      //escape closes the list only (not the whole modal), the focus goes back to its button
+      onKeyDown={(e) => {
+        if (e.key === "Escape" && open) {
+          e.preventDefault();
+          setOpen(false);
+          button.current?.focus();
+        }
+      }}
+    >
       <span id={`${id}-label`}>Assigné à :</span>
       <button
+        ref={button}
         type="button"
         id={`${id}-button`}
         aria-labelledby={`${id}-label ${id}-button`}

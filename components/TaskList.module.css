@@ -1,13 +1,5 @@
-/* figma draws the 1px border inside: 40px and 59px minus the border */
 .section {
-  display: flex;
-  flex-direction: column;
-  gap: 41px;
   margin-top: 34px;
-  padding: 39px 58px;
-  border: 1px solid var(--grey-200);
-  border-radius: 10px;
-  background: var(--white);
 }
 
 .header {
@@ -18,22 +10,6 @@
   gap: 24px 41px;
 }
 
-.heading {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.heading h2 {
-  color: var(--grey-800);
-  font: var(--h5);
-}
-
-.heading p {
-  color: var(--grey-600);
-  font: var(--body-m);
-}
-
 .controls {
   display: flex;
   flex-wrap: wrap;
@@ -41,86 +17,25 @@
   gap: 16px;
 }
 
-.views {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-/* figma "Chips": light orange when it is the current view */
-.view {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  height: 45px;
-  padding: 0 16px;
-  border: none;
-  border-radius: 8px;
-  background: var(--white);
-  color: var(--dark-orange);
-  font: var(--body-s);
-}
-
-.view[aria-pressed="true"] {
-  background: var(--light-orange);
-  color: var(--dark-orange-tag);
-}
-
-.view svg {
-  color: var(--dark-orange);
-}
-
-.view:disabled {
-  cursor: not-allowed;
-}
-
-/* the select and the search look like the figma boxes (1px border inside 63px) */
-.select,
-.search input {
-  height: 63px;
-  border: 1px solid var(--grey-200);
-  border-radius: 8px;
-  background: var(--white);
-  color: var(--grey-600);
-  font: var(--body-s);
-}
-
+/* the select looks like the figma search box */
 .select {
   width: 152px;
+  height: 63px;
   padding: 0 31px;
+  border: 1px solid var(--grey-200);
+  border-radius: 8px;
   /* figma arrow, 32px from the right */
   background: var(--white)
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='8' viewBox='0 0 16 8' overflow='visible'%3E%3Cpath d='M0 0L8 8L16 0' fill='none' stroke='%236b7280'/%3E%3C/svg%3E")
     no-repeat right 31px center;
+  color: var(--grey-600);
+  font: var(--body-s);
   appearance: none;
   cursor: pointer;
 }
 
-.search {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
 .search input {
   width: 283px;
-  padding: 0 60px 0 31px;
-}
-
-.search input::placeholder {
-  color: var(--grey-600);
-  opacity: 1;
-}
-
-.search svg {
-  position: absolute;
-  right: 32px;
-  color: var(--grey-600);
-  pointer-events: none;
-}
-
-.empty {
-  color: var(--grey-600);
 }
 
 /* figma: the cards are 40px narrower on each side */
@@ -133,20 +48,12 @@
 }
 
 @media (max-width: 1100px) {
-  .section {
-    padding: 31px 29px;
-  }
-
   .list {
     padding: 0;
   }
 }
 
 @media (max-width: 480px) {
-  .section {
-    padding: 23px 15px;
-  }
-
   .controls,
   .select,
   .search,

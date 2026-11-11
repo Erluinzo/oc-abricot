@@ -1,0 +1,35 @@
+/* figma "Chips": the buttons that change the view */
+.views {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.view {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 45px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--white);
+  /* figma's orange is 4:1 on white */
+  color: var(--dark-orange-text);
+  font: var(--body-s);
+  cursor: pointer;
+}
+
+/* light orange: the current view */
+.view[aria-pressed="true"] {
+  background: var(--light-orange);
+  color: var(--dark-orange-tag);
+}
+
+.view svg {
+  color: var(--dark-orange);
+}
+
+.view:disabled {
+  cursor: not-allowed;
+}

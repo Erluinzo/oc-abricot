@@ -2,12 +2,18 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect, unstable_rethrow } from "next/navigation";
-import { apiFetch, getErrorMessage, type Project, type User } from "./api";
+import {
+  apiFetch,
+  getErrorMessage,
+  getTasks,
+  type Project,
+  type User,
+} from "./api";
 
 //name and description are sent back so the fields keep them after an error
 export type ProjectState = { error: string; name: string; description: string };
 
-export async function createProject(state: ProjectState, formData: FormData) {
+export async function createProject(formData: FormData) {
   const name = String(formData.get("name"));
   const description = String(formData.get("description"));
   try {
@@ -30,18 +36,15 @@ export async function createProject(state: ProjectState, formData: FormData) {
     return { error: "Erreur de connexion au serveur", name, description };
   }
   revalidatePath("/projects");
-  return { error: "", name: "", description: "" };
+  return { error: "", name, description };
 }
 
-export async function updateProject(
-  id: string,
-  state: ProjectState,
-  formData: FormData,
-) {
+export async function updateProject(id: string, formData: FormData) {
   const name = String(formData.get("name"));
   const description = String(formData.get("description"));
   const emails = formData.getAll("contributors").map(String);
   const path = "/projects/" + encodeURIComponent(id);
+  let error = "";
   try {
     const data = await apiFetch(path, {
       method: "PUT",
@@ -59,21 +62,39 @@ export async function updateProject(
       (email) => !members.some((user) => user.email === email),
     );
     const removed = members.filter((user) => !emails.includes(user.email));
+    //stop at the first refused change
     for (const email of added) {
       const result = await apiFetch(path + "/contributors", {
         method: "POST",
         body: JSON.stringify({ email }),
       });
       if (!result.success) {
-        return { error: getErrorMessage(result), name, description };
+        error = getErrorMessage(result);
+        break;
       }
     }
-    for (const user of removed) {
-      const result = await apiFetch(`${path}/contributors/${user.id}`, {
-        method: "DELETE",
-      });
+    const removedIds: string[] = [];
+    for (const user of error ? [] : removed) {
+      const result = await apiFetch(
+        `${path}/contributors/${encodeURIComponent(user.id)}`,
+        { method: "DELETE" },
+      );
       if (!result.success) {
-        return { error: getErrorMessage(result), name, description };
+        error = getErrorMessage(result);
+        break;
+      }
+      removedIds.push(user.id);
+    }
+    //the backend keeps the tasks of a removed contributor assigned to them: take them off
+    for (const task of removedIds.length ? await getTasks(id) : []) {
+      const ids = task.assignees.map(({ user }) => user.id);
+      if (ids.some((userId) => removedIds.includes(userId))) {
+        await apiFetch(`${path}/tasks/${encodeURIComponent(task.id)}`, {
+          method: "PUT",
+          body: JSON.stringify({
+            assigneeIds: ids.filter((userId) => !removedIds.includes(userId)),
+          }),
+        });
       }
     }
   } catch (err) {
@@ -82,8 +103,9 @@ export async function updateProject(
     return { error: "Erreur de connexion au serveur", name, description };
   }
   //"layout": the projects list and the project page both show the change
+  //(also after a refused contributor: the name and description are saved)
   revalidatePath("/projects", "layout");
-  return { error: "", name, description };
+  return { error, name, description };
 }
 
 //returns an error text, or goes back to the projects list

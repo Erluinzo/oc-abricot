@@ -1,37 +1,38 @@
 "use client";
 
-import { useActionState } from "react";
+import { useState, useTransition } from "react";
 import { deleteProject } from "@/lib/projects";
 import form from "./Form.module.css";
 
-//not in figma: the spec asks that the owner can delete a project
-export default function DeleteProject({
-  id,
-  name,
-}: {
+type Props = {
   id: string;
   name: string;
-}) {
-  const [error, formAction, pending] = useActionState(
-    async () => deleteProject(id),
-    "",
-  );
+};
+
+//not in figma: the spec asks that the owner can delete a project
+export default function DeleteProject({ id, name }: Props) {
+  const [error, setError] = useState("");
+  const [deleting, startDelete] = useTransition();
+
+  function remove() {
+    //the browser asks before deleting: it can't be undone
+    if (
+      !confirm(`Supprimer le projet « ${name} » ? Cette action est définitive.`)
+    ) {
+      return;
+    }
+    //on success the action goes back to the projects list
+    startDelete(async () => setError(await deleteProject(id)));
+  }
 
   return (
-    <form
-      action={formAction}
-      //the browser asks before deleting: it can't be undone
-      onSubmit={(e) => {
-        if (
-          !confirm(
-            `Supprimer le projet « ${name} » ? Cette action est définitive.`,
-          )
-        ) {
-          e.preventDefault();
-        }
-      }}
-    >
-      <button type="submit" disabled={pending} className={form.link}>
+    <>
+      <button
+        type="button"
+        onClick={remove}
+        disabled={deleting}
+        className={form.link}
+      >
         Supprimer
       </button>
       {error && (
@@ -39,6 +40,6 @@ export default function DeleteProject({
           {error}
         </p>
       )}
-    </form>
+    </>
   );
 }

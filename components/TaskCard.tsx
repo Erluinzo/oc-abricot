@@ -28,6 +28,7 @@ export default function TaskCard({
 }: Props) {
   const id = useId();
   const dots = useRef<HTMLButtonElement>(null);
+  const textarea = useRef<HTMLTextAreaElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [editing, setEditing] = useState(false);
   const [commentsOpen, setCommentsOpen] = useState(false);
@@ -40,6 +41,8 @@ export default function TaskCard({
       if (!result) {
         setContent("");
       }
+      //"Envoyer" was disabled while sending: the focus goes back to the field
+      textarea.current?.focus();
       return result;
     },
     "",
@@ -55,7 +58,14 @@ export default function TaskCard({
     ) {
       return;
     }
-    startDelete(async () => setError(await deleteTask(projectId, task.id)));
+    startDelete(async () => {
+      const result = await deleteTask(projectId, task.id);
+      setError(result);
+      //the card goes away: the focus goes to the "Tâches" title, not to the page start
+      if (!result) {
+        document.getElementById("tasks-title")?.focus();
+      }
+    });
   }
 
   return (
@@ -77,6 +87,12 @@ export default function TaskCard({
             if (e.key === "Escape" && menuOpen) {
               setMenuOpen(false);
               dots.current?.focus();
+            }
+          }}
+          //a click or a tab outside the menu closes it
+          onBlur={(e) => {
+            if (!e.currentTarget.contains(e.relatedTarget)) {
+              setMenuOpen(false);
             }
           }}
         >
@@ -125,7 +141,7 @@ export default function TaskCard({
       {task.assignees.length > 0 && (
         <div className={styles.row}>
           <p>Assigné à :</p>
-          <ul className={styles.people}>
+          <ul className={people.list}>
             {task.assignees.map(({ user }) => (
               <li key={user.id}>
                 <span className={people.avatar} aria-hidden="true">
@@ -178,7 +194,7 @@ export default function TaskCard({
             <form action={commentAction} className={styles.add}>
               <div className={styles.comment}>
                 <span
-                  className={`${people.avatar} ${people.owner}`}
+                  className={`${people.avatar} ${people.orange}`}
                   aria-hidden="true"
                 >
                   {userInitials}
@@ -187,6 +203,7 @@ export default function TaskCard({
                   Ajouter un commentaire
                 </label>
                 <textarea
+                  ref={textarea}
                   id={`${id}-content`}
                   name="content"
                   placeholder="Ajouter un commentaire..."

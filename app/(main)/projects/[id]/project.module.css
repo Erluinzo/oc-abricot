@@ -10,7 +10,7 @@
   margin: 0 0 49px -68px;
 }
 
-/* figma: the buttons line up 17px under the top of the title */
+/* figma: the buttons ("Créer une tâche", then "IA" at the AI step) line up 17px under the top of the title */
 .actions {
   display: flex;
   flex-shrink: 0;
@@ -71,6 +71,7 @@
 
 .contributors h2 {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
   gap: 8px;
   color: var(--grey-800);
@@ -83,21 +84,8 @@
   font: var(--body-m);
 }
 
-.people {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  list-style: none;
-}
-
-.people li {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
 /* figma: 5px between the owner and the "Propriétaire" tag */
-.people li:first-child {
+.contributors li:first-child {
   gap: 5px;
 }
 

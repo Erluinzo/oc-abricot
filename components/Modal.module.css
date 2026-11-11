@@ -50,9 +50,10 @@
   width: 100%;
 }
 
-/* figma buttons are 181px wide, text centered */
+/* figma buttons are 181px wide, text centered.
+   "form >" and "button." are stronger than .button from Form.module.css */
 .form > button,
-.open {
+button.createProject {
   width: 181px;
   padding: 0;
 }

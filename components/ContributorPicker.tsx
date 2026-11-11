@@ -1,11 +1,11 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useId, useRef, useState } from "react";
 import type { User } from "@/lib/api";
 import { searchUsers } from "@/lib/projects";
 import { ChevronIcon } from "./Icons";
 import form from "./Form.module.css";
-import styles from "./ContributorPicker.module.css";
+import styles from "./Picker.module.css";
 
 type Props = {
   //the owner is already in the project: not shown in the results
@@ -17,14 +17,16 @@ type Props = {
 //figma "Contributeurs" dropdown. The backend can't list every user, only search them,
 //so the list opens on a search field with a checkbox per user found
 export default function ContributorPicker({ ownerId, selectedUsers }: Props) {
+  const id = useId();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
-  //the users found and the search they answer (empty while waiting for the backend)
+  //the users found and the search they answer: an old answer is not shown
   const [results, setResults] = useState({ query: "", users: [] as User[] });
   const [selected, setSelected] = useState(selectedUsers ?? []);
   //the users on top of the list: an unchecked one stays until the next search
   const [shown, setShown] = useState(selectedUsers ?? []);
   const lastQuery = useRef("");
+  const button = useRef<HTMLButtonElement>(null);
 
   async function search(text: string) {
     setQuery(text);
@@ -68,14 +70,25 @@ export default function ContributorPicker({ ownerId, selectedUsers }: Props) {
   }
 
   return (
-    <div className={styles.picker}>
-      <span id="contributors-label">Contributeurs</span>
+    <div
+      className={styles.picker}
+      //escape closes the list only (not the whole modal), the focus goes back to its button
+      onKeyDown={(e) => {
+        if (e.key === "Escape" && open) {
+          e.preventDefault();
+          setOpen(false);
+          button.current?.focus();
+        }
+      }}
+    >
+      <span id={`${id}-label`}>Contributeurs</span>
       <button
+        ref={button}
         type="button"
-        id="contributors-button"
-        aria-labelledby="contributors-label contributors-button"
+        id={`${id}-button`}
+        aria-labelledby={`${id}-label ${id}-button`}
         aria-expanded={open}
-        aria-controls="contributors-panel"
+        aria-controls={`${id}-panel`}
         onClick={() => setOpen(!open)}
         className={styles.button}
       >
@@ -85,13 +98,13 @@ export default function ContributorPicker({ ownerId, selectedUsers }: Props) {
         <ChevronIcon />
       </button>
       {open && (
-        <div id="contributors-panel" className={styles.panel}>
+        <div id={`${id}-panel`} className={styles.panel}>
           <div className={form.field}>
-            <label htmlFor="contributors-search" className="sr-only">
+            <label htmlFor={`${id}-search`} className="sr-only">
               Rechercher un collaborateur
             </label>
             <input
-              id="contributors-search"
+              id={`${id}-search`}
               type="search"
               autoComplete="off"
               placeholder="Rechercher un nom ou un email"
@@ -117,11 +130,12 @@ export default function ContributorPicker({ ownerId, selectedUsers }: Props) {
               ))}
             </ul>
           )}
-          <p role="status" className={form.hint}>
-            {status}
-          </p>
         </div>
       )}
+      {/* always in the page: screen readers only read a live region that already exists */}
+      <p role="status" className={form.hint}>
+        {open && status}
+      </p>
       {/* what the form really sends: one email per selected user */}
       {selected.map((user) => (
         <input
