@@ -1,0 +1,259 @@
+/* figma "Button" with a star: 94px, white text on orange.
+   #c1510a instead of #d3590b: white text needs 4.5:1 */
+button.ai {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 94px;
+  padding: 0;
+  background: var(--dark-orange-text);
+}
+
+button.ai:hover {
+  background: var(--dark-orange-tag);
+}
+
+/* figma: 797px high when empty, 859px with the list, content 494px wide.
+   "dialog." is stronger than Modal.module.css */
+dialog.dialog {
+  height: 797px;
+  padding: 79px 52px;
+}
+
+.dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+dialog.full {
+  height: 859px;
+  padding-bottom: 39px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.title svg {
+  color: var(--main-orange);
+}
+
+/* the list scrolls, the field stays at the bottom.
+   relative: the hidden texts of the cards (sr-only) stay inside the scroll */
+.body {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  list-style: none;
+}
+
+/* figma "Tâche liste": 25px and 40px minus the border */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 24px 39px;
+  border: 1px solid var(--grey-200);
+  border-radius: 10px;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.text h3 {
+  font: var(--h5);
+  overflow-wrap: anywhere;
+}
+
+.text p {
+  color: var(--grey-600);
+  font: var(--body-s);
+  overflow-wrap: anywhere;
+}
+
+/* "Supprimer | Modifier", 15px high like figma */
+.actions {
+  display: flex;
+  height: 15px;
+  align-items: center;
+  gap: 15px;
+}
+
+.actions button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--grey-600);
+  font: var(--body-xs);
+  cursor: pointer;
+}
+
+/* the trash is lighter than the pencil in figma */
+.actions button:first-child svg {
+  color: var(--grey-400);
+}
+
+/* the line between "Supprimer" and "Modifier" */
+.actions > span {
+  width: 1px;
+  height: 11px;
+  background: var(--grey-400);
+}
+
+/* "Modifier": the card shows 2 fields, the button is as wide as the others */
+.edit {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.edit > div {
+  width: 100%;
+}
+
+.edit > button {
+  width: 181px;
+  padding: 0;
+}
+
+/* figma "+ Ajouter les tâches": 181px, centered under the list */
+button.add {
+  flex-shrink: 0;
+  align-self: center;
+  width: 181px;
+  margin-top: 24px;
+  padding: 0;
+}
+
+/* under the list (outside its scroll), so they are always seen */
+.status,
+.alert {
+  flex-shrink: 0;
+  margin-top: 24px;
+  color: var(--grey-600);
+  font: var(--body-s);
+}
+
+.status:empty {
+  margin-top: 0;
+}
+
+.alert {
+  color: var(--error-red-text);
+}
+
+.prompt {
+  margin-top: 56px;
+}
+
+/* with the list: a line over the field, from one side of the modal to the other */
+.full .prompt {
+  margin: 24px -52px 0;
+  padding: 23px 52px 0;
+  border-top: 1px solid var(--grey-200);
+}
+
+/* figma "Comment" field. The input fills the whole pill (left padding included):
+   a click anywhere on it goes to the field */
+.pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 60px;
+  padding: 0 32px 0 0;
+  border-radius: 80px;
+  background: var(--grey-50);
+}
+
+.pill:has(input:focus-visible) {
+  outline: 2px solid var(--dark-orange-text);
+  outline-offset: 3px;
+}
+
+.pill input {
+  flex: 1;
+  align-self: stretch;
+  padding: 0 0 0 32px;
+  text-overflow: ellipsis;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: none;
+  color: inherit;
+  font: var(--body-2xs);
+}
+
+.pill input::placeholder {
+  color: inherit;
+  opacity: 1;
+}
+
+/* figma "IA button": orange circle, light orange when used.
+   40px to click, the 24px circle is the inside (content-box) */
+.pill button {
+  display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  margin: -8px;
+  padding: 8px;
+  border: none;
+  background-clip: content-box;
+  border-radius: 50%;
+  background-color: var(--dark-orange);
+  color: var(--white);
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease-out,
+    color 0.3s ease-out;
+}
+
+.pill button:hover,
+.pill button:focus-visible {
+  background-color: var(--light-orange);
+  color: var(--dark-orange);
+}
+
+@media (max-width: 768px) {
+  dialog.dialog {
+    padding: 64px 24px 40px;
+  }
+
+  .full .prompt {
+    margin: 24px -24px 0;
+    padding: 23px 24px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 20px 16px;
+  }
+
+  .pill {
+    padding-right: 16px;
+  }
+
+  .pill input {
+    padding-left: 24px;
+  }
+}

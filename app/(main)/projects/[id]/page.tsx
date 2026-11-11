@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import AiTasks from "@/components/AiTasks";
 import CreateTask from "@/components/CreateTask";
 import DeleteProject from "@/components/DeleteProject";
 import { ArrowIcon } from "@/components/Icons";
@@ -64,6 +65,7 @@ export default async function ProjectPage({
         </div>
         <div className={styles.actions}>
           <CreateTask projectId={project.id} members={members} />
+          <AiTasks projectId={project.id} />
         </div>
       </div>
       <section

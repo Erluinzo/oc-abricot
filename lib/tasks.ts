@@ -109,3 +109,38 @@ export async function addComment(
   revalidatePath("/projects", "layout");
   return "";
 }
+
+//creates the tasks proposed by the AI ("to do", no date, nobody assigned).
+//"created" tells how many were saved before an error: they are not sent twice
+export async function addTasks(
+  projectId: string,
+  tasks: { title: string; description: string }[],
+) {
+  let created = 0;
+  let error = "";
+  try {
+    for (const task of Array.isArray(tasks) ? tasks.slice(0, 100) : []) {
+      const data = await apiFetch(
+        `/projects/${encodeURIComponent(projectId)}/tasks`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            title: String(task?.title ?? ""),
+            description: String(task?.description ?? ""),
+          }),
+        },
+      );
+      if (!data.success) {
+        error = getErrorMessage(data);
+        break;
+      }
+      created++;
+    }
+  } catch (err) {
+    unstable_rethrow(err);
+    console.log(err);
+    error = "Erreur de connexion au serveur";
+  }
+  revalidatePath("/projects", "layout");
+  return { error, created };
+}
